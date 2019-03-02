@@ -1,0 +1,21 @@
+trigger:
+- master
+
+jobs:
+- job: Server2012
+  pool:
+    vmImage: 'vs2015-win2012r2'
+  steps:
+  - template: templates/kitchen-steps.yml
+
+- job: Server2016
+  pool:
+    vmImage: 'vs2017-win2016'
+  steps:
+  - template: templates/kitchen-steps.yml
+
+- job: Server2019
+  pool:
+    vmImage: 'windows-2019'
+  steps:
+  - template: templates/kitchen-steps.yml

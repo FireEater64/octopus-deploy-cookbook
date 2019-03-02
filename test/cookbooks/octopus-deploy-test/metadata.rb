@@ -8,3 +8,4 @@ version '0.1.0'
 supports 'windows'
 
 depends 'octopus-deploy'
+depends 'sql_server'

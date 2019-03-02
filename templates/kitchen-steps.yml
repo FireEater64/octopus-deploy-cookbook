@@ -1,0 +1,20 @@
+steps:
+- powershell: |
+    . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel stable -project chefdk
+    $env:Path += ";C:\opscode\chefdk\bin"
+  displayName: 'Install ChefDK'
+
+- powershell: |
+    C:\opscode\chefdk\bin\chef.bat exec bundle install --with="appveyor"
+    copy .kitchen.appveyor.yml .kitchen.yml
+  displayName: 'Set up kitchen'
+
+- powershell: C:\opscode\chefdk\bin\chef.bat exec kitchen converge
+  displayName: 'converge'
+
+- powershell: C:\opscode\chefdk\bin\chef.bat exec inspec exec test/integration/**/*.rb
+  displayName: 'test'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '.kitchen/logs'
